@@ -55,14 +55,16 @@ An **API key** is like a password that proves *you* are allowed to use Google’
 
 Secrets let your code use a private value without ever showing it on screen.
 
-1. Left sidebar → click the **lock icon** (Secrets)
-2. Click **"New Secret"**
+1. Left sidebar → click **Secrets** (under Setup / Tools)
+2. Click **"New Secret"** at the top — **not** "New configuration"
 3. **Key name** — type exactly: `GEMINI_API_KEY`  
    *(spelling and capitalization must match)*
 4. **Value** — paste your API key
 5. Click **"Add Secret"**
 
 > ✅ Your key is safe. Your code will read it from behind the scenes. Never paste it into `main.py`.
+>
+> ⚠️ If you add it under **Configurations** instead of **Secrets**, the bot will not find your key. Cancel that and use **+ New Secret**.
 
 ---
 
