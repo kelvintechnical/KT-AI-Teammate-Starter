@@ -10,6 +10,10 @@ Welcome. Today you are going to do something most people only *talk* about:
 
 No coding experience needed. Work through the steps in order. Each one builds on the last. If something looks confusing, keep going — the “what does this mean?” notes under each code block are for you.
 
+> **Model for today:** use `gemini-3.1-flash-lite` everywhere below.  
+> If you see a **404** on an older model name, switch to this one.  
+> If you see a **503** (high demand), wait 30 seconds and Run again — or ask your instructor.
+
 ---
 
 ## Tiny Python cheat sheet (read once)
@@ -24,6 +28,7 @@ You don't need to memorize this. Come back when something breaks.
 | `something.part` | **Dot** means "look inside." | Lets you open nested tools: `client.chats.create` | "Open the chats folder inside client." |
 | Indentation | Leading spaces = "this line belongs inside the block above." | Python has no `{ }`. Wrong spaces = crash. | "These lines live inside the loop." |
 | `.text` | Pulls the **plain-text answer** out of a response. | Without it you see a messy package, not a sentence. | "Unwrap the actual words the bot said." |
+
 ---
 
 ## Step 1 — You’re in the right place
@@ -72,13 +77,15 @@ Secrets let your code use a private value without ever showing it on screen.
 
 ### First: install the toolkit (Shell)
 
-Click the **Shell** tab (bottom panel) and run:
+Click the **Shell** tab (bottom panel — or Tools → Shell) and run:
 
 ```
 pip install google-genai
 ```
 
 Wait until the cursor comes back. That command downloads Google’s Gemini toolkit so Python can use it.
+
+> If Shell says **Requirement already satisfied**, you’re good — move on.
 
 ### Then: open `main.py` and paste this
 
@@ -90,6 +97,8 @@ client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 ```
 
 Click **Run**. No error message? You’re connected. Go to Step 5.
+
+> ⚠️ A red underline under `google` that says **Cannot resolve imported module** is often just the editor. Trust **Run** / **Console**, not the squiggle. If Run works, keep going.
 
 <details>
 <summary>🔍 What does this code mean? (click to open)</summary>
@@ -128,27 +137,28 @@ Each line uses four questions: **What is it?** **What is it for?** **Why does it
 Add these lines **below** what you already have:
 
 ```python
-chat = client.chats.create(model="gemini-2.5-flash")
+chat = client.chats.create(model="gemini-3.1-flash-lite")
 print(chat.send_message("Hello! Who are you?").text)
 ```
 
-Click **Run**.
+Click **Run**. Look in the **Console** (not Shell) for the answer.
 
 > ✅ **Checkpoint:** If the bot answers with a sentence about itself — you just talked to a large language model (LLM). That’s the same kind of tech behind ChatGPT, Claude, and Gemini… except *you* built the connection.
 
 <details>
 <summary>🔍 What does this code mean?</summary>
 
-**First call — writer (uses chat memory)**
-- `question = "..."` — **What:** stores your prompt. **For:** re-use and clarity. **Like:** "Write this down before you ask."
-- `answer = chat.send_message(question).text` — **What:** sends to your teammate, saves text. **For:** catches the draft as plain text. **Like:** "Writer produces a draft; you catch it."
+**`chat = client.chats.create(model="gemini-3.1-flash-lite")`**
+- **What:** Opens one conversation with a chosen AI model.
+- **For:** Saves that conversation as `chat` so later messages can remember earlier ones.
+- **Like:** "Open a group chat and save it as chat."
 
-**Second call — editor (fresh, no memory)**
-- `client.models.generate_content(...)` — **What:** one-shot API call. **For:** a separate pass with only the draft in view. **Why:** Editor doesn't need chat history — only the draft. **Like:** "New editor who never saw the chat."
-- `contents=f"...{answer}"` — **What:** an f-string with a filled-in blank. **For:** automatically inserts the draft into the prompt. **Like:** "Dear editor, improve THIS: [draft]."
-- `.text` — again, unwrap to readable words.
+**`print(chat.send_message("Hello! Who are you?").text)`**
+- **What:** Sends text, unwraps the answer, shows it.
+- **For:** Your first real talk with the model.
+- **Like:** "Ask, peel off `.text`, print the sentence."
 
-**Pipeline in plain English:** Writer drafts → you save text → Editor improves → you print both. That's the simplest agent.
+**Read inside → out:** `send_message()` → `.text` → `print()`
 
 </details>
 
@@ -162,6 +172,10 @@ You’re going to set a `system_instruction` — rules the AI follows in the bac
 
 **Delete** the two lines from Step 5. Then **pick ONE role** below and paste that block into `main.py` (keep your Step 4 connection code at the top).
 
+> **Reminder:** AIM is the **Kinston Teens summer program** working with Hands for Humanity.  
+> Your portfolio is a **communications & marketing** portfolio (flyers, writing, photo/video, social, docs) — **not** an AI/ML engineering project.  
+> Do **not** invent what “AIM” stands for.
+
 ---
 
 ### 🎨 Graphic Design
@@ -170,13 +184,24 @@ You’re going to set a `system_instruction` — rules the AI follows in the bac
 from google.genai import types
 
 chat = client.chats.create(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
             "You are a graphic design assistant for the Hands for Humanity AIM portfolio. "
-            "Help with logo concepts, donation/recruitment/event flyers in Canva. "
-            "Suggest layouts, colors, and headlines. "
-            "Never claim you can see images — only work from descriptions."
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML engineering project. Never invent what AIM stands for. "
+            "Help with logo concepts, donation/recruitment/event graphics, and social visuals. "
+            "Default tool: Google Gemini image generation (free with a Google account). "
+            "When the student is ready to make an image, give them a full copy-paste prompt "
+            "for Gemini Create images, including style, colors with hex codes, composition, "
+            "and 'no text' or exact text if needed. "
+            "Workflow: (1) offer 2–3 design directions, (2) refine the chosen direction, "
+            "(3) output one complete Gemini image prompt, (4) tell them to open Gemini, "
+            "paste the prompt, generate, and download. "
+            "Do not push Canva as the first step. Mention Canva only as an optional next step "
+            "for layouts, typography, or mockups after they have the Gemini image. "
+            "Never claim you can see images — only work from descriptions. "
+            "Do not invent org facts — ask if information is missing."
         )
     )
 )
@@ -190,10 +215,12 @@ chat = client.chats.create(
 from google.genai import types
 
 chat = client.chats.create(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
             "You are a writing coach for the Hands for Humanity AIM portfolio. "
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML engineering project. Never invent what AIM stands for. "
             "Help refine the mission statement, draft histories, and write social media captions. "
             "Match a clear, authentic teen voice. "
             "Do not invent facts or quotes — ask if information is missing."
@@ -210,13 +237,19 @@ chat = client.chats.create(
 from google.genai import types
 
 chat = client.chats.create(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
             "You are a photo and video production assistant for the Hands for Humanity AIM portfolio. "
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML engineering project. Never invent what AIM stands for. "
             "Help plan B-roll shots, facility photo lists, and a 2-minute documentary outline. "
             "Give shot lists and editing checklists. "
-            "Remind about consent and respectful filming."
+            "When asked about consent, answer with a clear checklist first "
+            "(permission before filming faces, guardian consent for minors, how footage will be used, "
+            "option to decline). Do not switch to folder structure unless the student asks. "
+            "Remind about consent and respectful filming. "
+            "Do not invent org facts — ask if information is missing."
         )
     )
 )
@@ -230,12 +263,15 @@ chat = client.chats.create(
 from google.genai import types
 
 chat = client.chats.create(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
             "You are a social media assistant for Hands for Humanity. "
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML engineering project. Never invent what AIM stands for. "
             "Help with TikTok hooks, reel ideas, and platform captions. "
-            "Keep answers short and practical."
+            "Keep answers short and practical. "
+            "Do not invent facts about Hands for Humanity — ask if information is missing."
         )
     )
 )
@@ -249,12 +285,19 @@ chat = client.chats.create(
 from google.genai import types
 
 chat = client.chats.create(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
             "You are a project manager assistant for the Hands for Humanity AIM portfolio. "
-            "Help build timelines, organize digital folder structures, and create requirements checklists. "
-            "Keep answers as bullet lists. End with the single most important next action."
+            "AIM is the Kinston Teens summer program. The portfolio is a professional "
+            "communications and marketing portfolio (flyers, writing, photo/video, social, docs) — "
+            "NOT an AI/ML engineering project. "
+            "Never expand AIM as Artificial Intelligence or Machine Learning. "
+            "Never invent what AIM stands for. "
+            "Help with timelines, digital folder structures, and requirements checklists "
+            "for teen production teams. "
+            "Keep answers as bullet lists. End with the single most important next action. "
+            "Do not invent org facts — ask if information is missing."
         )
     )
 )
@@ -335,7 +378,7 @@ Everything indented under `while True:` is *inside* the loop. Python uses spaces
 
 Pause. Check yourself:
 
-- ✅ Connected to a real AI model (Gemini 2.5 Flash)
+- ✅ Connected to a real AI model (`gemini-3.1-flash-lite`)
 - ✅ Gave your bot a specific job with `system_instruction`
 - ✅ The bot remembers the conversation (`chat` keeps history)
 - ✅ Had a multi-turn chat and logged it
@@ -355,7 +398,7 @@ question = "Draft a 100-word mission statement for Hands for Humanity from these
 answer = chat.send_message(question).text
 
 review = client.models.generate_content(
-    model="gemini-2.5-flash",
+    model="gemini-3.1-flash-lite",
     contents=f"You are a senior editor. Improve clarity and hook:\n{answer}"
 ).text
 
@@ -411,17 +454,23 @@ Your Repl URL **is** your bot. Come back anytime. Keep building. Use it on real 
 |---|---|
 | Your API key | Replit Secrets → `GEMINI_API_KEY` |
 | Your code | `main.py` |
-| Model name | `gemini-2.5-flash` |
+| Model name | `gemini-3.1-flash-lite` |
+| Image making (Graphic team) | Gemini Create images (free) — Canva optional after |
 | Library docs | https://ai.google.dev/gemini-api/docs |
 
 ### When something breaks
 
 | Problem | Likely fix |
 |---|---|
-| `KeyError: 'GEMINI_API_KEY'` | Secret name mistyped — must be exactly `GEMINI_API_KEY` |
+| `KeyError: 'GEMINI_API_KEY'` | Secret name mistyped — must be exactly `GEMINI_API_KEY` (Secrets, not Configurations) |
+| Red underline: Cannot resolve `google` | Editor lag — click **Run**. If Console works, ignore the squiggle |
+| `ModuleNotFoundError: No module named 'google'` | Shell: `pip install google-genai` then Run again |
+| `404` model not found / not available | Use `gemini-3.1-flash-lite` |
+| `503` high demand | Wait 30 seconds and Run again |
 | Indentation / unexpected indent | Spaces under `while True:` got messed up — re-paste Step 7 |
 | Messy object instead of text | You forgot `.text` |
 | Bot ignores your role | Make sure Step 6 `system_instruction` is still in `main.py` and you deleted the Step 5 test chat |
+| Bot invents AIM as AI/ML | Remind it: AIM is Kinston Teens summer program; communications portfolio only |
 
 ---
 
