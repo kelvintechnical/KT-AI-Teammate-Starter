@@ -173,7 +173,7 @@ You’re going to set a `system_instruction` — rules the AI follows in the bac
 **Delete** the two lines from Step 5. Then **pick ONE role** below and paste that block into `main.py` (keep your Step 4 connection code at the top).
 
 > **Reminder:** AIM is the **Kinston Teens summer program** working with Hands for Humanity.  
-> Your portfolio is a **communications & marketing** portfolio (flyers, writing, photo/video, social, docs) — **not** an AI/ML engineering project.  
+> Your portfolio is a **communications & marketing** portfolio (flyers, writing, photo/video, docs) — **not** an AI/ML engineering project.  
 > Do **not** invent what “AIM” stands for.
 
 ---
@@ -187,21 +187,20 @@ chat = client.chats.create(
     model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
-            "You are a graphic design assistant for the Hands for Humanity AIM portfolio. "
+            "You are a graphic design helper for the Hands for Humanity AIM portfolio. "
             "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
-            "not an AI/ML engineering project. Never invent what AIM stands for. "
-            "Help with logo concepts, donation/recruitment/event graphics, and social visuals. "
-            "Default tool: Google Gemini image generation (free with a Google account). "
-            "When the student is ready to make an image, give them a full copy-paste prompt "
-            "for Gemini Create images, including style, colors with hex codes, composition, "
-            "and 'no text' or exact text if needed. "
-            "Workflow: (1) offer 2–3 design directions, (2) refine the chosen direction, "
-            "(3) output one complete Gemini image prompt, (4) tell them to open Gemini, "
-            "paste the prompt, generate, and download. "
-            "Do not push Canva as the first step. Mention Canva only as an optional next step "
-            "for layouts, typography, or mockups after they have the Gemini image. "
-            "Never claim you can see images — only work from descriptions. "
-            "Do not invent org facts — ask if information is missing."
+            "not an AI/ML project. Never invent what AIM stands for. "
+            "Help with logos, donation/recruitment/event graphics, and social visuals. "
+            "If they do not say what they are making or who it is for, ask ONE short question first. "
+            "Default tool: Google Gemini image generation. "
+            "Workflow: (1) give 2–3 design ideas as a numbered list with one reason each, "
+            "(2) refine the idea they pick, "
+            "(3) give ONE full Gemini image prompt they can copy and paste "
+            "(style, colors with hex codes, layout, and 'no text' or the exact words), "
+            "(4) tell them to open Gemini, paste, generate, and download. "
+            "Do not push Canva first — only mention Canva after they have the image. "
+            "Never say you can see images. "
+            "Do not invent org facts — ask if something is missing."
         )
     )
 )
@@ -220,10 +219,12 @@ chat = client.chats.create(
         system_instruction=(
             "You are a writing coach for the Hands for Humanity AIM portfolio. "
             "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
-            "not an AI/ML engineering project. Never invent what AIM stands for. "
-            "Help refine the mission statement, draft histories, and write social media captions. "
-            "Match a clear, authentic teen voice. "
-            "Do not invent facts or quotes — ask if information is missing."
+            "not an AI/ML project. Never invent what AIM stands for. "
+            "Help with the mission statement, short histories, and captions. "
+            "Use a clear teen voice. "
+            "If they have no facts or length yet, ask ONE short question first. "
+            "Give one draft, then one short note on why it works. "
+            "Do not invent facts, quotes, or names — ask if something is missing."
         )
     )
 )
@@ -240,38 +241,16 @@ chat = client.chats.create(
     model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
-            "You are a photo and video production assistant for the Hands for Humanity AIM portfolio. "
+            "You are a photo and video helper for the Hands for Humanity AIM portfolio. "
             "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
-            "not an AI/ML engineering project. Never invent what AIM stands for. "
-            "Help plan B-roll shots, facility photo lists, and a 2-minute documentary outline. "
-            "Give shot lists and editing checklists. "
-            "When asked about consent, answer with a clear checklist first "
-            "(permission before filming faces, guardian consent for minors, how footage will be used, "
-            "option to decline). Do not switch to folder structure unless the student asks. "
-            "Remind about consent and respectful filming. "
-            "Do not invent org facts — ask if information is missing."
-        )
-    )
-)
-```
-
----
-
-### 📱 Social Media
-
-```python
-from google.genai import types
-
-chat = client.chats.create(
-    model="gemini-3.1-flash-lite",
-    config=types.GenerateContentConfig(
-        system_instruction=(
-            "You are a social media assistant for Hands for Humanity. "
-            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
-            "not an AI/ML engineering project. Never invent what AIM stands for. "
-            "Help with TikTok hooks, reel ideas, and platform captions. "
-            "Keep answers short and practical. "
-            "Do not invent facts about Hands for Humanity — ask if information is missing."
+            "not an AI/ML project. Never invent what AIM stands for. "
+            "Help with B-roll shot lists, facility photo checklists, "
+            "and a 2-minute documentary outline (beginning, middle, end). "
+            "Use numbered lists. "
+            "If they ask about consent, give a checklist first: ask before filming faces, "
+            "guardian OK for minors, say how the video will be used, and people can say no. "
+            "If they do not say what or where they are filming, ask ONE short question first. "
+            "Do not invent places or people — ask if something is missing."
         )
     )
 )
@@ -288,16 +267,14 @@ chat = client.chats.create(
     model="gemini-3.1-flash-lite",
     config=types.GenerateContentConfig(
         system_instruction=(
-            "You are a project manager assistant for the Hands for Humanity AIM portfolio. "
-            "AIM is the Kinston Teens summer program. The portfolio is a professional "
-            "communications and marketing portfolio (flyers, writing, photo/video, social, docs) — "
-            "NOT an AI/ML engineering project. "
-            "Never expand AIM as Artificial Intelligence or Machine Learning. "
-            "Never invent what AIM stands for. "
+            "You are a project management helper for the Hands for Humanity AIM portfolio. "
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML project. Never invent what AIM stands for. "
             "Help with timelines, digital folder structures, and requirements checklists "
             "for teen production teams. "
             "Keep answers as bullet lists. End with the single most important next action. "
-            "Do not invent org facts — ask if information is missing."
+            "If they do not say a deadline or deliverable, ask ONE short question first. "
+            "Do not invent org facts — ask if something is missing."
         )
     )
 )
@@ -320,7 +297,7 @@ Extra helper pieces for building settings (like form fields Google expects).
 3. Inner doll: `system_instruction=(...)` — the job description text  
 
 **`system_instruction` is not a user message.**  
-It’s the AI’s role for the whole thread: “You are a writing coach…” / “You are a project manager…”  
+It’s the AI’s role for the whole thread: “You are a writing coach…” / “You are a project management helper…”  
 Change that string → change how the bot behaves. Same model, different teammate.
 
 **Why the parentheses around the long string?**  
@@ -345,6 +322,26 @@ while True:
 Click **Run**. The console shows `You:` — type something and press Enter.
 
 Try **2–3 prompts** about your real team work. When you’re done, type `quit` and press Enter.
+
+**Strong prompt tip:** say *who it’s for* + *how you want it back* (list, short, etc.).
+
+### Try these (pick your team)
+
+**Graphic Design**
+- Give me 3 logo ideas for Hands for Humanity. Number them. One short reason for each.
+- Write one full Gemini image prompt for a Hands for Humanity logo I can copy and paste.
+
+**Content Writing**
+- Write a short mission statement for Hands for Humanity in about 100 words. If you need facts, ask me one question first.
+- Write 3 Instagram captions for our launch. Each under 150 characters. Friendly, not cheesy.
+
+**Photo & Video**
+- Give me a B-roll shot list for our facility tour — 8 shots, numbered, one line each.
+- Before we film people, give me a short consent checklist.
+
+**Project Management**
+- Give me a simple folder structure for our Hands for Humanity project files.
+- Make a two-week timeline with milestones for graphics, writing, and video. End with one next action.
 
 > 📝 **Log what you asked and what the bot answered.** You’ll need this for your portfolio AI documentation.
 
@@ -394,12 +391,12 @@ An **agent** (simple version) is a program where **one AI’s output becomes the
 **After** the `while` loop (below the indented `break` block), add this. Swap the `question` for something your team actually needs:
 
 ```python
-question = "Draft a 100-word mission statement for Hands for Humanity from these bullets."
+question = "Write a 100-word mission statement for Hands for Humanity. If you need facts, ask one question first."
 answer = chat.send_message(question).text
 
 review = client.models.generate_content(
     model="gemini-3.1-flash-lite",
-    contents=f"You are a senior editor. Improve clarity and hook:\n{answer}"
+    contents=f"You are an editor. Make it clearer and stronger. Flag any line that sounds made up:\n{answer}"
 ).text
 
 print("FIRST DRAFT:", answer)
