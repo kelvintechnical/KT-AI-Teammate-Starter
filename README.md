@@ -380,6 +380,41 @@ Pause. Check yourself:
 - ✅ The bot remembers the conversation (`chat` keeps history)
 - ✅ Had a multi-turn chat and logged it
 
+### Full file check (Writing default)
+
+Your `main.py` should match this (Connect + Writing job + chat loop).  
+Other roles: same file, but swap the Step 6 block from your team section above.
+
+```python
+from google import genai
+from google.genai import types
+import os
+
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
+chat = client.chats.create(
+    model="gemini-3.1-flash-lite",
+    config=types.GenerateContentConfig(
+        system_instruction=(
+            "You are a writing coach for the Hands for Humanity AIM portfolio. "
+            "AIM is the Kinston Teens summer program — a communications and marketing portfolio, "
+            "not an AI/ML project. Never invent what AIM stands for. "
+            "Help with the mission statement, short histories, and captions. "
+            "Use a clear teen voice. "
+            "If they have no facts or length yet, ask ONE short question first. "
+            "Give one draft, then one short note on why it works. "
+            "Do not invent facts, quotes, or names — ask if something is missing."
+        )
+    )
+)
+
+while True:
+    msg = input("You: ")
+    if msg == "quit":
+        break
+    print("Bot:", chat.send_message(msg).text)
+```
+
 All four true? You’re ready for Step 9.
 
 ---
