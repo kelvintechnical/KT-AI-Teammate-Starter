@@ -10,6 +10,9 @@ Welcome. Today you are going to do something most people only *talk* about:
 
 No coding experience needed. Work through the steps in order. Each one builds on the last. If something looks confusing, keep going — the “what does this mean?” notes under each code block are for you.
 
+> **Class slideshow (follow along with Kelvin):**  
+> [TA_KT_AI — Google Slides](https://docs.google.com/presentation/d/1wPBxUh-1op4w7B6bKpgvAgZduuZcQ0PKv5erRqPEjAM/edit?slide=id.g3f53ebb41e6_11_1192#slide=id.g3f53ebb41e6_11_1192)
+
 > **Model for today:** use `gemini-3.1-flash-lite` everywhere below.  
 > If you see a **404** on an older model name, switch to this one.  
 > If you see a **503** (high demand), wait 30 seconds and Run again — or ask your instructor.
@@ -343,7 +346,7 @@ Try **2–3 prompts** about your real team work. When you’re done, type `quit`
 - Give me a simple folder structure for our Hands for Humanity project files.
 - Make a two-week timeline with milestones for graphics, writing, and video. End with one next action.
 
-> 📝 **Log what you asked and what the bot answered.** You’ll need this for your portfolio AI documentation.
+> 📝 **Log what you asked and what the bot answered.** Create a notes file in Replit (Library → ⋮ → New file → e.g. `prompt_log.txt`) and keep your prompts + responses there for portfolio AI documentation.
 
 <details>
 <summary>🔍 What does this code mean?</summary>
